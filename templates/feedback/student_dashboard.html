@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Student Dashboard - Rate.me{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h2><i class="bi bi-speedometer2"></i> Student Dashboard</h2>
+        <p class="text-muted">Welcome back, {{ user.get_full_name|default:user.username }}!</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-9">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="bi bi-book"></i> Available Courses to Rate</h4>
+            </div>
+            <div class="card-body">
+                {% if courses %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Course Code</th>
+                                    <th>Course Name</th>
+                                    <th>Lecturer</th>
+                                    <th>Department</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for course in courses %}
+                                <tr>
+                                    <td><strong>{{ course.code }}</strong></td>
+                                    <td>{{ course.name }}</td>
+                                    <td>{{ course.lecturer.get_full_name|default:course.lecturer.username }}</td>
+                                    <td><span class="badge bg-secondary">{{ course.department }}</span></td>
+                                    <td>
+                                        <a href="{% url 'rate_lecturer' course.lecturer.id %}" 
+                                           class="btn btn-sm btn-primary">
+                                            <i class="bi bi-star"></i> Rate
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle"></i>
+                        No courses available to rate at the moment. Check back later!
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-3">
+        <div class="card shadow">
+            <div class="card-header bg-light">
+                <h5 class="mb-0"><i class="bi bi-lightning"></i> Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <a href="{% url 'lecturers' %}" class="btn btn-outline-primary w-100 mb-2">
+                    <i class="bi bi-person-lines-fill"></i> Browse All Lecturers
+                </a>
+                <hr>
+                <p class="small text-muted mb-0">
+                    <i class="bi bi-info-circle"></i> 
+                    Your feedback helps improve teaching quality
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

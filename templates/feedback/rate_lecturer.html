@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Rate {{ lecturer.get_full_name|default:lecturer.username }} - Rate.me{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+        <div class="card shadow-lg border-0">
+            <div class="card-header text-white" 
+                 style="background: linear-gradient(90deg, #007bff, #6f42c1);">
+                <h3 class="mb-0">
+                    <i class="bi bi-star"></i> Share Your Feedback
+                </h3>
+            </div>
+            <div class="card-body">
+                <!-- Lecturer Info -->
+                <div class="alert alert-light border rounded-3">
+                    <div class="d-flex align-items-center">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center me-3 text-white"
+                             style="background: linear-gradient(135deg, #007bff, #6f42c1);
+                                    width: 60px; height: 60px; font-size: 2rem;">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <div>
+                            <h4 class="mb-1">
+                                {{ lecturer.get_full_name|default:"Dr. Martin Oduor" }}
+                            </h4>
+                            <p class="mb-0 text-muted">
+                                <i class="bi bi-building"></i> {{ lecturer.department|default:"Computer Science Department" }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="text-muted text-center mb-4" style="font-size: 0.9rem;">
+                    Your opinion helps create a better innovation environment at Riara University.
+                </p>
+
+                <!-- Feedback Form -->
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="mb-4">
+                        <label for="{{ form.course.id_for_label }}" class="form-label fw-bold">
+                            Select Course *
+                        </label>
+                        {{ form.course }}
+                        {% if form.course.errors %}
+                            <div class="text-danger small">{{ form.course.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <hr>
+                    <h5 class="mb-3"><i class="bi bi-star-fill text-warning"></i> Rate Key Areas</h5>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.rating.id_for_label }}" class="form-label fw-semibold">
+                                Overall Rating *
+                            </label>
+                            {{ form.rating }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.teaching_rating.id_for_label }}" class="form-label fw-semibold">
+                                Teaching Quality
+                            </label>
+                            {{ form.teaching_rating }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.communication_rating.id_for_label }}" class="form-label fw-semibold">
+                                Communication
+                            </label>
+                            {{ form.communication_rating }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.engagement_rating.id_for_label }}" class="form-label fw-semibold">
+                                Student Engagement
+                            </label>
+                            {{ form.engagement_rating }}
+                        </div>
+                    </div>
+
+                    <hr>
+                    <h5 class="mb-3"><i class="bi bi-chat-left-text"></i> Written Feedback</h5>
+
+                    <div class="mb-3">
+                        <label for="{{ form.comment.id_for_label }}" class="form-label fw-semibold">
+                            Comments (Optional)
+                        </label>
+                        {{ form.comment }}
+                        <small class="form-text text-muted">
+                            Be specific and constructive — your feedback helps lecturers improve.
+                        </small>
+                    </div>
+
+                    <div class="mb-4 form-check">
+                        {{ form.is_anonymous }}
+                        <label class="form-check-label fw-semibold" for="{{ form.is_anonymous.id_for_label }}">
+                            <i class="bi bi-shield-check"></i> Submit Anonymously
+                        </label>
+                        <small class="form-text text-muted d-block">
+                            Your identity will remain confidential and hidden from lecturers.
+                        </small>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg" 
+                                style="background: linear-gradient(90deg, #007bff, #6f42c1); border: none;
+                                       transition: all 0.3s ease;">
+                            <i class="bi bi-check-circle"></i> Submit Feedback
+                        </button>
+                        <a href="{% url 'dashboard' %}" class="btn btn-secondary btn-lg">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn-primary:hover {
+        background: linear-gradient(90deg, #6f42c1, #007bff) !important;
+        transform: scale(1.03);
+    }
+    .btn-primary:active {
+        transform: scale(0.98);
+        background: linear-gradient(90deg, #4b0082, #007bff) !important;
+    }
+</style>
+{% endblock %}

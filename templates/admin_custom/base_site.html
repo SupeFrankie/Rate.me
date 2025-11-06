@@ -1,0 +1,7 @@
+{% extends "admin/base.html "%}
+
+{% block branding %}
+<h1 id="site-name" style="font-size: 1.5rem;">
+    Welcome, {{ request.user.get_full_name | default:request.user.username}}
+</h1>
+{% endblock %}

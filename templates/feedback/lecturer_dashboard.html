@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Lecturer Dashboard</h2>
+  <p>Welcome, {{ user.username }}!</p>
+
+  <h3>Your Courses</h3>
+  {% if courses %}
+    <ul>
+      {% for course in courses %}
+        <li>{{ course.name }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>You have no assigned courses yet.</p>
+  {% endif %}
+
+  <h3>Recent Feedback</h3>
+  {% if feedbacks %}
+    <ul>
+      {% for fb in feedbacks %}
+        <li>
+          <strong>{{ fb.student.username }}</strong> rated you 
+          <em>{{ fb.rating }}</em> — "{{ fb.comment }}"
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No feedback received yet.</p>
+  {% endif %}
+{% endblock %}
