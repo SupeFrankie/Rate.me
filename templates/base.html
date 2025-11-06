@@ -132,8 +132,8 @@ footer {
 </head>
 <script>
     //auto logout after 10mins of inactivity
-    const let warningTime = 8 * 60 * 1000; // 8 minutes
-    const let logoutTime = 10 * 60 *1000;
+     let warningTime = 8 * 60 * 1000; // 8 minutes
+     let logoutTime = 10 * 60 *1000;
 
     let warningTimeout, logoutTimeout;
 
@@ -155,10 +155,10 @@ footer {
     }
 
     //reset on activity
-    document.onload =  resetTimers();
-    document.onmousemove = resetTimers();
-    document.onkeypress = resetTimers();
-
+    document.addEventListener('DOMContentLoaded', resetTimers);
+    document.addEventListener('DOMContentLoaded', resetTimers);
+    document.addEventListener('DOMContentLoaded', resetTimers);
+</script>
     
 
 <body>

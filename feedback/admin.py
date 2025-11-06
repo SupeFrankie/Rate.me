@@ -2,10 +2,19 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import User, Course, Feedback, Suggestion
 
+class CustomAdminSite(admin.AdminSite):
+    site_header = "Rate.me Control Panel"
+    site_title = "Rate.me Admin"
+    index_title = "Admin Dashboard"
+    
+    def each_context(self, request):
+        request.session.set_expiry(600)
+        return super().each_context(request)
+    
+custom_admin_site = CustomAdminSite(name='custom_admin') 
 
-@admin.register(User)
+@admin.register(User, site=custom_admin_site) 
 class CustomUserAdmin(BaseUserAdmin):
-    """Custom user admin with role and department"""
     fieldsets = BaseUserAdmin.fieldsets + (
         ('Additional Info', {'fields': ('role', 'department')}),
     )
@@ -18,9 +27,8 @@ class CustomUserAdmin(BaseUserAdmin):
     ordering = ['-date_joined']
 
 
-@admin.register(Course)
+@admin.register(Course, site=custom_admin_site)
 class CourseAdmin(admin.ModelAdmin):
-    """Course administration"""
     list_display = ['code', 'name', 'lecturer', 'department']
     list_filter = ['department', 'lecturer']
     search_fields = ['code', 'name', 'lecturer__username', 'lecturer__first_name', 'lecturer__last_name']
@@ -31,9 +39,8 @@ class CourseAdmin(admin.ModelAdmin):
         return qs.select_related('lecturer')
 
 
-@admin.register(Feedback)
+@admin.register(Feedback, site=custom_admin_site)
 class FeedbackAdmin(admin.ModelAdmin):
-    """Feedback administration"""
     list_display = [
         'get_student_name',
         'lecturer',
@@ -78,7 +85,6 @@ class FeedbackAdmin(admin.ModelAdmin):
     )
 
     def get_student_name(self, obj):
-        """Display student name or 'Anonymous'"""
         if obj.is_anonymous:
             return "Anonymous"
         return obj.student.get_full_name() or obj.student.username
@@ -90,9 +96,8 @@ class FeedbackAdmin(admin.ModelAdmin):
         return qs.select_related('student', 'lecturer', 'course')
 
 
-@admin.register(Suggestion)
+@admin.register(Suggestion, site=custom_admin_site)
 class SuggestionAdmin(admin.ModelAdmin):
-    """AI Suggestions administration"""
     list_display = [
         'lecturer',
         'based_on_feedback_count',
@@ -123,7 +128,6 @@ class SuggestionAdmin(admin.ModelAdmin):
     )
 
     def preview_suggestions(self, obj):
-        """Show a short preview of suggestions text"""
         text = obj.suggestions_text or ""
         return text[:100] + "..." if len(text) > 100 else text
 
@@ -132,9 +136,3 @@ class SuggestionAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         return qs.select_related('lecturer')
-
-
-# Customize admin site header and title
-admin.site.site_header = "Rate.me Administration"
-admin.site.site_title = "Rate.me Admin"
-admin.site.index_title = "Welcome to the Rate.me Administration Portal"
