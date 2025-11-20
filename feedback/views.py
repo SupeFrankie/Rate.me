@@ -59,7 +59,7 @@ def dashboard(request):
 def student_dashboard(request):
     """Student dashboard - view courses and rate lecturers"""
     courses = Course.objects.select_related('lecturer').all()
-    return render(request, 'templates/feedback/student_dashboard.html', {'courses': courses})
+    return render(request, 'feedback/student_dashboard.html', {'courses': courses})
 
 
 def lecturer_dashboard(request):
@@ -105,7 +105,7 @@ def lecturer_dashboard(request):
         'chart_labels': chart_labels,
         'chart_data': chart_data,
     }
-    return render(request, 'templates/feedback/lecturer_dashboard.html', context)
+    return render(request, 'feedback/lecturer_dashboard.html', context)
 
 
 # Course management
@@ -125,7 +125,7 @@ def add_course(request):
             messages.error(request, 'Please correct the errors below.')
     else:
         form = CourseForm()
-    return render(request, 'templates/feedback/add_course.html', {'form': form})
+    return render(request, 'feedback/add_course.html', {'form': form})
 
 
 # Lecturer views
@@ -134,7 +134,7 @@ def add_course(request):
 def lecturers_list(request):
     """List all lecturers (students only)"""
     lecturers = User.objects.filter(role='lecturer').prefetch_related('courses')
-    return render(request, 'templates/feedback/lecturers.html', {'lecturers': lecturers})
+    return render(request, 'feedback/lecturers.html', {'lecturers': lecturers})
 
 
 @login_required
@@ -178,7 +178,7 @@ def rate_lecturer(request, lecturer_id):
         'courses': courses,
         'form': form
     }
-    return render(request, 'templates/feedback/rate_lecturer.html', context)
+    return render(request, 'feedback/rate_lecturer.html', context)
 
 
 # AI Suggestions
