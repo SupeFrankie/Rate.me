@@ -12,64 +12,71 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-/* Sidebar positioning - Desktop */
+/* ===== DESKTOP LAYOUT (992px and up) ===== */
 @media (min-width: 992px) {
+    /* Content wrapper - proper spacing for sidebar */
     .content-wrapper {
         margin-left: 250px !important;
-        transition: margin-left 0.3s ease-in-out;
-        background: rgba(255, 255, 255, 0.95) !important;
-        border-radius: 10px !important;
-        padding: 20px !important;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
-        backdrop-filter: blur(10px) !important;
         margin-right: 20px !important;
         margin-top: 20px !important;
         margin-bottom: 20px !important;
+        padding: 30px !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        border-radius: 10px !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+        backdrop-filter: blur(10px) !important;
         min-height: calc(100vh - 40px) !important;
+        transition: margin-left 0.3s ease-in-out !important;
     }
     
+    /* When sidebar is collapsed */
     body.sidebar-collapse .content-wrapper {
-        margin-left: 4.6rem !important;
+        margin-left: 80px !important;
     }
     
+    /* Header positioning */
     .main-header {
         margin-left: 250px !important;
-        transition: margin-left 0.3s ease-in-out;
+        transition: margin-left 0.3s ease-in-out !important;
     }
     
     body.sidebar-collapse .main-header {
-        margin-left: 4.6rem !important;
+        margin-left: 80px !important;
     }
     
+    /* Sidebar fixed position */
     .main-sidebar {
         position: fixed !important;
+        top: 0 !important;
         left: 0 !important;
         width: 250px !important;
-        top: 0 !important;
         height: 100vh !important;
         overflow-y: auto !important;
+        z-index: 1000 !important;
+        transition: all 0.3s ease-in-out !important;
     }
     
+    /* Footer positioning */
     .main-footer {
         margin-left: 250px !important;
-        transition: margin-left 0.3s ease-in-out;
+        transition: margin-left 0.3s ease-in-out !important;
     }
     
     body.sidebar-collapse .main-footer {
-        margin-left: 4.6rem !important;
+        margin-left: 80px !important;
     }
 }
 
-/* Sidebar positioning - Mobile/Tablet */
+/* ===== MOBILE/TABLET LAYOUT (under 992px) ===== */
 @media (max-width: 991px) {
     .content-wrapper {
         margin-left: 0 !important;
         margin-right: 10px !important;
         margin-top: 10px !important;
         margin-bottom: 10px !important;
+        padding: 20px !important;
         background: rgba(255, 255, 255, 0.95) !important;
         border-radius: 10px !important;
-        padding: 15px !important;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
         backdrop-filter: blur(10px) !important;
     }
@@ -81,16 +88,16 @@ body {
     .main-sidebar {
         position: fixed !important;
         left: -250px !important;
-        transition: left 0.3s ease-in-out;
-        z-index: 10000 !important;
         top: 0 !important;
-        height: 100vh !important;
         width: 250px !important;
+        height: 100vh !important;
+        z-index: 10000 !important;
+        transition: left 0.3s ease-in-out !important;
     }
     
     body:not(.sidebar-collapse) .main-sidebar {
         left: 0 !important;
-        box-shadow: 2px 0 20px rgba(0, 0, 0, 0.5);
+        box-shadow: 2px 0 20px rgba(0, 0, 0, 0.5) !important;
     }
     
     /* Mobile backdrop */
@@ -104,12 +111,6 @@ body {
         background: rgba(0, 0, 0, 0.6);
         z-index: 9999;
         backdrop-filter: blur(3px);
-        animation: fadeIn 0.3s;
-    }
-    
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
     }
     
     .main-footer {
@@ -117,18 +118,72 @@ body {
     }
 }
 
-/* Sidebar styling */
+/* ===== FIX FOR FORM BUTTONS (CRITICAL!) ===== */
+.submit-row {
+    display: flex !important;
+    justify-content: flex-start !important;
+    gap: 10px !important;
+    padding: 20px !important;
+    background: rgba(248, 249, 250, 0.95) !important;
+    border-radius: 8px !important;
+    margin-top: 20px !important;
+    flex-wrap: wrap !important;
+}
+
+.submit-row input[type="submit"],
+.submit-row button,
+.submit-row .btn {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    margin: 0 !important;
+}
+
+/* Make sure all form buttons are visible */
+input[name="_save"],
+input[name="_continue"],
+input[name="_addanother"],
+.deletelink-box {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Fix for change form */
+#content {
+    padding: 20px !important;
+    overflow: visible !important;
+}
+
+.change-form {
+    overflow: visible !important;
+}
+
+/* Ensure form has proper bottom padding */
+form {
+    padding-bottom: 100px !important;
+}
+
+/* ===== SIDEBAR STYLING ===== */
 .main-sidebar {
-    background: rgba(0, 0, 0, 0.8) !important;
+    background: rgba(0, 0, 0, 0.85) !important;
     backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
 }
 
 .brand-link {
-    background: rgba(106, 17, 203, 0.3) !important;
+    background: rgba(106, 17, 203, 0.4) !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 15px !important;
 }
 
-/* Header gradient */
+.brand-link .brand-text {
+    color: white !important;
+    font-weight: bold !important;
+}
+
+/* ===== HEADER GRADIENT ===== */
 .main-header.navbar {
     background: linear-gradient(90deg, #0d6efd, #6a11cb) !important;
     border: none !important;
@@ -138,73 +193,196 @@ body {
     color: white !important;
 }
 
-/* Cards and boxes */
+.navbar-nav .nav-link:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 5px !important;
+}
+
+/* ===== CARDS AND BOXES ===== */
 .card, .small-box, .info-box {
     background: rgba(255, 255, 255, 0.95) !important;
     border-radius: 8px !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15) !important;
     border: none !important;
 }
 
-/* Buttons */
-.btn-primary {
+.card-header {
+    background: rgba(13, 110, 253, 0.1) !important;
+    border-bottom: 1px solid rgba(13, 110, 253, 0.2) !important;
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary, 
+input[type="submit"].default,
+button[type="submit"] {
     background: linear-gradient(90deg, #0d6efd, #6a11cb) !important;
     border: none !important;
+    color: white !important;
+    padding: 8px 16px !important;
+    border-radius: 5px !important;
     transition: all 0.3s ease !important;
+    cursor: pointer !important;
 }
 
-.btn-primary:hover {
+.btn-primary:hover,
+input[type="submit"].default:hover,
+button[type="submit"]:hover {
     background: linear-gradient(90deg, #6a11cb, #b721ff) !important;
     transform: scale(1.05) !important;
 }
 
-/* Forms */
-.form-control, .form-select, input[type="text"], input[type="password"], 
-input[type="email"], textarea, select {
-    background: rgba(255, 255, 255, 0.9) !important;
-    border: 1px solid rgba(0, 0, 0, 0.2) !important;
+/* Delete button */
+.deletelink, .deletelink-box a {
+    background: linear-gradient(90deg, #dc3545, #c82333) !important;
+    color: white !important;
+    padding: 8px 16px !important;
+    border-radius: 5px !important;
+    text-decoration: none !important;
+    display: inline-block !important;
 }
 
-/* Tables */
+.deletelink:hover {
+    background: linear-gradient(90deg, #c82333, #bd2130) !important;
+    transform: scale(1.05) !important;
+}
+
+/* ===== FORMS ===== */
+.form-control, 
+.form-select, 
+input[type="text"], 
+input[type="password"], 
+input[type="email"], 
+input[type="number"],
+textarea, 
+select {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid rgba(0, 0, 0, 0.2) !important;
+    border-radius: 5px !important;
+    padding: 8px 12px !important;
+}
+
+.form-control:focus,
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: #0d6efd !important;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25) !important;
+    outline: none !important;
+}
+
+/* ===== TABLES ===== */
 .table {
     background: rgba(255, 255, 255, 0.95) !important;
 }
 
-/* Sidebar menu */
+.table thead th {
+    background: rgba(13, 110, 253, 0.1) !important;
+    border-bottom: 2px solid rgba(13, 110, 253, 0.3) !important;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background: rgba(0, 0, 0, 0.02) !important;
+}
+
+/* ===== SIDEBAR MENU ===== */
 .nav-sidebar .nav-link {
     color: rgba(255, 255, 255, 0.9) !important;
+    padding: 12px 15px !important;
+    margin: 2px 8px !important;
+    border-radius: 5px !important;
+    transition: all 0.3s ease !important;
 }
 
 .nav-sidebar .nav-link:hover {
     background: rgba(106, 17, 203, 0.3) !important;
+    transform: translateX(5px) !important;
 }
 
 .nav-sidebar .nav-link.active {
     background: linear-gradient(90deg, #0d6efd, #6a11cb) !important;
+    box-shadow: 0 2px 8px rgba(106, 17, 203, 0.3) !important;
 }
 
-/* Login page */
-.login-box, .login-card-body {
+.nav-sidebar .nav-icon {
+    margin-right: 10px !important;
+}
+
+/* ===== LOGIN PAGE ===== */
+.login-box, 
+.login-card-body {
     background: rgba(255, 255, 255, 0.95) !important;
     border-radius: 10px !important;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
     backdrop-filter: blur(10px) !important;
 }
 
-/* Footer */
+.login-box-msg {
+    font-weight: bold !important;
+    color: #333 !important;
+}
+
+/* ===== FOOTER ===== */
 .main-footer {
     background: rgba(0, 0, 0, 0.5) !important;
     color: white !important;
     backdrop-filter: blur(10px) !important;
+    padding: 15px !important;
 }
 
-/* Pagination */
+/* ===== PAGINATION ===== */
 .pagination .page-link {
-    background: rgba(255, 255, 255, 0.9) !important;
+    background: rgba(255, 255, 255, 0.95) !important;
     border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    color: #0d6efd !important;
 }
 
 .pagination .page-link:hover {
     background: linear-gradient(90deg, #0d6efd, #6a11cb) !important;
     color: white !important;
+    border-color: transparent !important;
+}
+
+.pagination .page-item.active .page-link {
+    background: linear-gradient(90deg, #0d6efd, #6a11cb) !important;
+    border-color: transparent !important;
+}
+
+/* ===== BREADCRUMBS ===== */
+.breadcrumb {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px) !important;
+    padding: 10px 15px !important;
+    border-radius: 5px !important;
+}
+
+/* ===== SCROLLBAR STYLING ===== */
+.main-sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.main-sidebar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.main-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(106, 17, 203, 0.5);
+    border-radius: 4px;
+}
+
+.main-sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(106, 17, 203, 0.7);
+}
+
+/* ===== ENSURE NO CONTENT IS HIDDEN ===== */
+.content {
+    min-height: calc(100vh - 100px) !important;
+    padding-bottom: 50px !important;
+}
+
+/* Fix for inline forms */
+.inline-related {
+    background: rgba(248, 249, 250, 0.95) !important;
+    padding: 15px !important;
+    margin-bottom: 15px !important;
+    border-radius: 8px !important;
 }
