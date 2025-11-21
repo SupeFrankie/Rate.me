@@ -1,0 +1,210 @@
+/* JJK Gojo Gradient for Admin Panel */
+body {
+    background: linear-gradient(-45deg, #000000, #0d6efd, #1a1a40, #001f3f) !important;
+    background-size: 400% 400% !important;
+    animation: gojoGradient 15s ease infinite !important;
+    min-height: 100vh;
+}
+
+@keyframes gojoGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Sidebar positioning - Desktop */
+@media (min-width: 992px) {
+    .content-wrapper {
+        margin-left: 250px !important;
+        transition: margin-left 0.3s ease-in-out;
+        background: rgba(255, 255, 255, 0.95) !important;
+        border-radius: 10px !important;
+        padding: 20px !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+        backdrop-filter: blur(10px) !important;
+        margin-right: 20px !important;
+        margin-top: 20px !important;
+        margin-bottom: 20px !important;
+        min-height: calc(100vh - 40px) !important;
+    }
+    
+    body.sidebar-collapse .content-wrapper {
+        margin-left: 4.6rem !important;
+    }
+    
+    .main-header {
+        margin-left: 250px !important;
+        transition: margin-left 0.3s ease-in-out;
+    }
+    
+    body.sidebar-collapse .main-header {
+        margin-left: 4.6rem !important;
+    }
+    
+    .main-sidebar {
+        position: fixed !important;
+        left: 0 !important;
+        width: 250px !important;
+        top: 0 !important;
+        height: 100vh !important;
+        overflow-y: auto !important;
+    }
+    
+    .main-footer {
+        margin-left: 250px !important;
+        transition: margin-left 0.3s ease-in-out;
+    }
+    
+    body.sidebar-collapse .main-footer {
+        margin-left: 4.6rem !important;
+    }
+}
+
+/* Sidebar positioning - Mobile/Tablet */
+@media (max-width: 991px) {
+    .content-wrapper {
+        margin-left: 0 !important;
+        margin-right: 10px !important;
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        border-radius: 10px !important;
+        padding: 15px !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+        backdrop-filter: blur(10px) !important;
+    }
+    
+    .main-header {
+        margin-left: 0 !important;
+    }
+    
+    .main-sidebar {
+        position: fixed !important;
+        left: -250px !important;
+        transition: left 0.3s ease-in-out;
+        z-index: 10000 !important;
+        top: 0 !important;
+        height: 100vh !important;
+        width: 250px !important;
+    }
+    
+    body:not(.sidebar-collapse) .main-sidebar {
+        left: 0 !important;
+        box-shadow: 2px 0 20px rgba(0, 0, 0, 0.5);
+    }
+    
+    /* Mobile backdrop */
+    body:not(.sidebar-collapse)::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 9999;
+        backdrop-filter: blur(3px);
+        animation: fadeIn 0.3s;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    .main-footer {
+        margin-left: 0 !important;
+    }
+}
+
+/* Sidebar styling */
+.main-sidebar {
+    background: rgba(0, 0, 0, 0.8) !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+.brand-link {
+    background: rgba(106, 17, 203, 0.3) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Header gradient */
+.main-header.navbar {
+    background: linear-gradient(90deg, #0d6efd, #6a11cb) !important;
+    border: none !important;
+}
+
+.navbar-nav .nav-link {
+    color: white !important;
+}
+
+/* Cards and boxes */
+.card, .small-box, .info-box {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2) !important;
+    border: none !important;
+}
+
+/* Buttons */
+.btn-primary {
+    background: linear-gradient(90deg, #0d6efd, #6a11cb) !important;
+    border: none !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(90deg, #6a11cb, #b721ff) !important;
+    transform: scale(1.05) !important;
+}
+
+/* Forms */
+.form-control, .form-select, input[type="text"], input[type="password"], 
+input[type="email"], textarea, select {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Tables */
+.table {
+    background: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Sidebar menu */
+.nav-sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.nav-sidebar .nav-link:hover {
+    background: rgba(106, 17, 203, 0.3) !important;
+}
+
+.nav-sidebar .nav-link.active {
+    background: linear-gradient(90deg, #0d6efd, #6a11cb) !important;
+}
+
+/* Login page */
+.login-box, .login-card-body {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-radius: 10px !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+/* Footer */
+.main-footer {
+    background: rgba(0, 0, 0, 0.5) !important;
+    color: white !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+/* Pagination */
+.pagination .page-link {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.pagination .page-link:hover {
+    background: linear-gradient(90deg, #0d6efd, #6a11cb) !important;
+    color: white !important;
+}

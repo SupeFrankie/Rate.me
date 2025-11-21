@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-change-this-in-production')
 if not SECRET_KEY:
     raise ValueError(" DJANGO_SECRET_KEY is not set! Please check your .env file.")
-DEBUG = os.getenv('DEBUG', 'True') == 'True'
+DEBUG = True
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 # Application definition
@@ -46,15 +46,66 @@ INSTALLED_APPS = [
 
 
 JAZZMIN_SETTINGS = {
-    "site_title": "Rate.me Administration",
-    "site_header": "Rate.me Control Center",
-    "welcome_sign": "Welcome to the Rate.me Admin Portal",
-    "site_brand": "Rate.me ",
-    "show_sidebar": True,
-    "hide_apps": [],
-    "order_with_respect_to": [],
     
-    }
+    "site_title": "Rate.me Admin",
+    "site_header": "Rate.me Administration",
+    "site_brand": "Rate.me Control Panel",
+    "welcome_sign": "Welcome to the Rate.me Admin Portal",
+    "copyright": "Rate.me © 2025 ",
+    
+    #Sidebar
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    
+    #Top menu
+    "topmenu_links": [
+        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "View Site", "url": "/", "new_window": True},
+    ],
+    
+     # Icons for models
+    "icons": {
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+        "feedback.User": "fas fa-user-circle",
+        "feedback.Course": "fas fa-book",
+        "feedback.Feedback": "fas fa-comments",
+        "feedback.Suggestion": "fas fa-lightbulb",
+    },
+    
+    # Custom CSS/JS
+    "custom_css": "css/admin_custom.css",
+    "custom_js": None,
+    
+    # UI
+    "show_ui_builder": False,
+    "changeform_format": "horizontal_tabs",
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": False,
+    "accent": "accent-primary",
+    "navbar": "navbar-dark navbar-primary",
+    "no_navbar_border": True,
+    "navbar_fixed": False,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": True,
+    "sidebar": "sidebar-dark-primary",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": False,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": False,
+    "theme": "default",
+    "dark_mode_theme": None,
+}
+
 
 
 MIDDLEWARE = [
@@ -144,8 +195,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+    ]
+
+#Find static files in development
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
+
+
 
 # Media files (user uploads)
 MEDIA_URL = '/media/'
@@ -172,15 +234,6 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
 
-#JAZZMIN UI TWEAKS; NON-B&W
-JAZZMIN_UI_TWEAKS = {
-    "theme": "cosmo",
-    "navbar": "navbar-dark bg-info",
-    "body_small_text": False,
-    "brand_colour": "navbar_purple",
-    "accent": "accent-indigo",
-    "dark_mode_theme": "cyborg",
-}
 
 #AUTO logout after 7mins inactivity
 SESSION_COOKIE_AGE = 420

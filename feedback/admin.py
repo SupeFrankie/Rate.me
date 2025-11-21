@@ -1,3 +1,5 @@
+from django.urls import reverse
+from django.utils.html import format_html
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import User, Course, Feedback, Suggestion
@@ -13,18 +15,42 @@ class CustomAdminSite(admin.AdminSite):
     
 custom_admin_site = CustomAdminSite(name='custom_admin') 
 
-@admin.register(User, site=custom_admin_site) 
+@admin.register(User)
 class CustomUserAdmin(BaseUserAdmin):
+    """Custom user admin with role and department"""
     fieldsets = BaseUserAdmin.fieldsets + (
-        ('Additional Info', {'fields': ('role', 'department')}),
+        ('Additional Info', {'fields': ('role', 'department', 'profile_picture', 'profile_preview')}),
     )
     add_fieldsets = BaseUserAdmin.add_fieldsets + (
-        ('Additional Info', {'fields': ('role', 'department')}),
+        ('Additional Info', {'fields': ('role', 'department', 'profile_picture')}),
     )
-    list_display = ['username', 'email', 'first_name', 'last_name', 'role', 'department', 'is_staff']
+    list_display = ['username', 'profile_image_tag', 'email', 'first_name', 'last_name', 'role', 'department', 'is_staff']
     list_filter = ['role', 'department', 'is_staff', 'is_active']
     search_fields = ['username', 'email', 'first_name', 'last_name']
     ordering = ['-date_joined']
+    readonly_fields = ['profile_preview']
+    
+    def profile_image_tag(self, obj):
+        """Display small profile picture in list view"""
+        if obj.profile_picture:
+            return format_html(
+                '<img src="{}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" />',
+                obj.profile_picture.url
+            )
+        return format_html('<div style="width: 40px; height: 40px; border-radius: 50%; background: #ddd; display: flex; align-items: center; justify-content: center;">👤</div>')
+    
+    profile_image_tag.short_description = 'Photo'
+    
+    def profile_preview(self, obj):
+        """Display larger profile picture in edit form"""
+        if obj.profile_picture:
+            return format_html(
+                '<img src="{}" style="max-width: 200px; max-height: 200px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);" />',
+                obj.profile_picture.url
+            )
+        return "No profile picture uploaded"
+    
+    profile_preview.short_description = 'Current Profile Picture'
 
 
 @admin.register(Course, site=custom_admin_site)

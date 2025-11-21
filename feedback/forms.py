@@ -29,12 +29,22 @@ class CustomUserCreationForm(UserCreationForm):
         required=False,
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Optional'})
     )
+    profile_picture = forms.ImageField(
+        required=False,
+        widget=forms.FileInput(attrs={
+            'class': 'form-control',
+            'accept': 'image/*',
+        }),
+        help_text='Optional: Upload a profile picture (will be auto-cropped to square)'
+    )
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'first_name', 'last_name', 'role', 'department', 'password1', 'password2')
+        fields = ('username', 'email', 'first_name', 'last_name', 'role',
+                  'department', 'profile_picture', 'password1', 'password2')
         widgets = {
-            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}),
+            'username': forms.TextInput(attrs={'class': 'form-control', 
+                                               'placeholder': 'Username'}),
         }
 
     def __init__(self, *args, **kwargs):

@@ -201,7 +201,14 @@ footer {
                         {% endif %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                                <i class="bi bi-person-circle"></i> {{ user.get_full_name|default:user.username }}
+                               {% if user.profile_picture %}
+                                    <img src="{{ user.profile_picture.url }}" 
+                                        style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; margin-right: 5px;" 
+                                        alt="Profile">
+                                {% else %}
+                                    <i class="bi bi-person-circle"></i>
+                                {% endif %}
+                                {{ user.get_full_name|default:user.username }}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><span class="dropdown-item-text"><small>Role: {{ user.get_role_display }}</small></span></li>
