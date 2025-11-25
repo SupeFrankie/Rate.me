@@ -1,3 +1,4 @@
+import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -7,7 +8,9 @@ from .models import User, Course, Feedback, Suggestion
 from .forms import CustomUserCreationForm, CourseForm, FeedbackForm
 import google.generativeai as genai
 from django.conf import settings
-
+from django.http import HttpResponse
+from .pdf_generator import generate_feedback_report_pdf
+from .email_utils import send_feedback_notification, send_suggestion_generated_notification
 
 # Gemini API config
 if settings.GEMINI_API_KEY:
@@ -127,6 +130,36 @@ def add_course(request):
         form = CourseForm()
     return render(request, 'feedback/add_course.html', {'form': form})
 
+#PDF export 
+@login_required
+@user_passes_test(is_lecturer)
+def export_feedback_pdf(request):
+    """Export feedback as PDF"""
+    lecturer = request.user
+    feedback_list = Feedback.objects.filter(lecturer=lecturer).select_related('course', 'student').order_by('-created_at')
+    
+    if not feedback_list.exists():
+        messages.warning(request, 'No feedback available to export.')
+        return redirect('dashboard')
+    
+    # Calculate stats
+    stats = feedback_list.aggregate(
+        avg_rating=Avg('rating'),
+        avg_teaching=Avg('teaching_rating'),
+        avg_communication=Avg('communication_rating'),
+        avg_engagement=Avg('engagement_rating'),
+    )
+    
+    # Generate PDF
+    pdf_buffer = generate_feedback_report_pdf(lecturer, feedback_list, stats)
+    
+    # Create response
+    response = HttpResponse(pdf_buffer, content_type='application/pdf')
+    filename = f"feedback_report_{lecturer.username}_{datetime.now().strftime('%Y%m%d')}.pdf"
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    
+    return response
+
 
 # Lecturer views
 @login_required
@@ -165,6 +198,9 @@ def rate_lecturer(request, lecturer_id):
             feedback.lecturer = lecturer
             feedback.save()
             
+            #Send feedback notification
+            send_feedback_notification(feedback)
+            
             messages.success(request, 'Thank you! Your feedback has been submitted.')
             return redirect('dashboard')
         else:
@@ -179,6 +215,9 @@ def rate_lecturer(request, lecturer_id):
         'form': form
     }
     return render(request, 'feedback/rate_lecturer.html', context)
+
+    
+        
 
 
 # AI Suggestions
@@ -267,6 +306,9 @@ def generate_suggestions(request):
         suggestions_text=suggestions_text,
         based_on_feedback_count=feedback_list.count()
     )
+    
+    #Send email notification
+    send_suggestion_generated_notification(lecturer, suggestion)
     
     messages.success(request, f'New AI suggestions generated based on {feedback_list.count()} feedback items!')
     return redirect('dashboard')

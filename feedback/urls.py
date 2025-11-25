@@ -23,4 +23,7 @@ urlpatterns = [
     
     # AI Suggestions (lecturers)
     path('generate-suggestions/', views.generate_suggestions, name='generate_suggestions'),
+    
+    #PDF export (lecturers)
+    path('export-feedback-pdf/', views.export_feedback_pdf, name='export_feedback_pdf'),
 ]
