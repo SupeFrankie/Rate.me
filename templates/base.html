@@ -11,155 +11,107 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-    
     <style>
         :root {
-    --primary-color: #0d6efd;
-    --secondary-color: #6c757d;
-}
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+        }
 
-body {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-.navbar-brand {
-    font-weight: bold;
-    font-size: 1.5rem;
-}
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
 
-.content-wrapper {
-    flex: 1;
-    /* JJK gradient */
-    background: linear-gradient(-45deg, #000000, #0d6efd, #1a1a40, #001f3f);
-    background-size: 400% 400%;
-    animation: gojoGradient 15s ease infinite;
-    color: white; /* makes text visible */
-    padding: 2rem;
-    border-radius: 8px;
-}
+        .content-wrapper {
+            flex: 1;
+            background: linear-gradient(-45deg, #000000, #0d6efd, #1a1a40, #001f3f);
+            background-size: 400% 400%;
+            animation: gojoGradient 15s ease infinite;
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+        }
 
-.rating-badge {
-    font-size: 2rem;
-    font-weight: bold;
-}
+        .rating-badge {
+            font-size: 2rem;
+            font-weight: bold;
+        }
 
-.suggestion-box {
-    background: rgba(255, 255, 255, 0.1); /* semi-transparent */
-    border-left: 4px solid var(--primary-color);
-    padding: 1.5rem;
-    border-radius: 0.75rem;
-    backdrop-filter: blur(10px); /* glass blur */
-    -webkit-backdrop-filter: blur(10px); /* Safari */
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    color: #fff; /* readable text */
-}
+        .suggestion-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            color: #fff;
+        }
 
-.feedback-card {
-    background: rgba(255, 255, 255, 0.1); /* semi-transparent */
-    border-radius: 0.75rem;
-    padding: 1rem;
-    transition: transform 0.2s, box-shadow 0.2s;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-    color: #fff;
-}
+        .feedback-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+            color: #fff;
+        }
 
-.feedback-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-}
+        .feedback-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
 
-.stat-card {
-    background: rgba(255, 255, 255, 0.1);
-    border-left: 4px solid var(--primary-color);
-    border-radius: 0.75rem;
-    padding: 1rem;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    color: #fff;
-}
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #fff;
+        }
 
-footer {
-    background-color: #f8f9fa;
-    margin-top: auto;
-    color: #000;
-}
+        footer {
+            background-color: #f8f9fa;
+            margin-top: auto;
+            color: #000;
+        }
 
-/* Keyframes for animated gradient */
-@keyframes gojoGradient {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
+        @keyframes gojoGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-/* Purple gradient for login page */
-.login-page {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(-45deg, #3a0ca3, #7209b7, #560bad, #b5179e);
-    background-size: 400% 400%;
-    animation: gojoPurple 15s ease infinite;
-    color: white;
-}
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(-45deg, #3a0ca3, #7209b7, #560bad, #b5179e);
+            background-size: 400% 400%;
+            animation: gojoPurple 15s ease infinite;
+            color: white;
+        }
 
-@keyframes gojoPurple {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
-
+        @keyframes gojoPurple {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
     </style>
     
     {% block extra_css %}{% endblock %}
 </head>
-<script>
-    //auto logout after 10mins of inactivity
-     let warningTime = 8 * 60 * 1000; // 8 minutes
-     let logoutTime = 10 * 60 *1000;
-
-    let warningTimeout, logoutTimeout;
-
-    function resetTimers() {
-        clearTimeout(warningTimer);
-        clearTimeout(logoutTimer);
-
-        warningTimer = setTimeout(showWarning, warningTime);
-
-        logoutTimeout = setTimeout(autoLogout, logoutTime);
-    }
-
-    function showWarning() {
-        alert(" You will be logged out soon due to inactivity.");
-    }
-
-    function autoLogout() {
-        window.location.href = "{% url 'logout' %}";
-    }
-
-    //reset on activity
-    document.addEventListener('DOMContentLoaded', resetTimers);
-    document.addEventListener('DOMContentLoaded', resetTimers);
-    document.addEventListener('DOMContentLoaded', resetTimers);
-</script>
-    
 
 <body>
     <!-- Navigation -->
@@ -273,6 +225,41 @@ footer {
 
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Toast Notifications -->
+    <script src="/static/js/toast.js"></script>
+    <script>
+        // Auto logout after 10mins of inactivity
+        let warningTime = 8 * 60 * 1000;
+        let logoutTime = 10 * 60 * 1000;
+        let warningTimeout, logoutTimeout;
+
+        function resetTimers() {
+            clearTimeout(warningTimeout);
+            clearTimeout(logoutTimeout);
+            warningTimeout = setTimeout(showWarning, warningTime);
+            logoutTimeout = setTimeout(autoLogout, logoutTime);
+        }
+
+        function showWarning() {
+            toast.warning("You will be logged out soon due to inactivity.");
+        }
+
+        function autoLogout() {
+            window.location.href = "{% url 'logout' %}";
+        }
+
+        document.addEventListener('DOMContentLoaded', resetTimers);
+        document.addEventListener('mousemove', resetTimers);
+        document.addEventListener('keypress', resetTimers);
+
+        // Convert Django messages to toasts
+        {% if messages %}
+            {% for message in messages %}
+                toast.{{ message.tags }}('{{ message|escapejs }}');
+            {% endfor %}
+        {% endif %}
+    </script>
     
     {% block extra_js %}{% endblock %}
 </body>
