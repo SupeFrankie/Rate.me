@@ -11,6 +11,19 @@ from django.conf import settings
 from django.http import HttpResponse
 from .pdf_generator import generate_feedback_report_pdf
 from .email_utils import send_feedback_notification, send_suggestion_generated_notification
+from django.contrib.auth.decorators import user_passes_test
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def view_test_passwords(request):
+    """Superuser only - view test account credentials"""
+    users = User.objects.filter(is_superuser=False).values('username', 'email', 'role', 'first_name', 'last_name')
+    
+    context = {
+        'users': users,
+        'note': 'Passwords are hashed for security. Use Django admin to reset passwords for testing.'
+    }
+    return render(request, 'feedback/test_passwords.html', context)
 
 # Gemini API config
 if settings.GEMINI_API_KEY:

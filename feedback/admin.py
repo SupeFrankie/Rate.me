@@ -3,17 +3,29 @@ from django.utils.html import format_html
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import User, Course, Feedback, Suggestion
+from django.contrib.admin import AdminSite
+from django.shortcuts import redirect
+from django.contrib import messages
+
+
 
 class CustomAdminSite(admin.AdminSite):
     site_header = "Rate.me Control Panel"
-    site_title = "Rate.me Admin"
-    index_title = "Admin Dashboard"
+    site_title = "Rate.me Admin Portal"
+    index_title = "Welcome to Rate.me Admin Control Center"
     
+    def has_permission(self, request):
+        """Only allow superusers or lecturer admins"""
+        return request.user.is_active and (request.user.is_superuser or
+                                           (request.user.is_staff and request.user.role == 'lecturer'))
+
     def each_context(self, request):
         request.session.set_expiry(600)
         return super().each_context(request)
-    
-custom_admin_site = CustomAdminSite(name='custom_admin') 
+
+# Create custom admin sites
+admin_site = CustomAdminSite(name='admin')
+custom_admin_site = CustomAdminSite(name='custom_admin')
 
 @admin.register(User)
 class CustomUserAdmin(BaseUserAdmin):
