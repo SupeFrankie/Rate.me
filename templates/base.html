@@ -267,7 +267,97 @@
     
     {% block extra_js %}{% endblock %}
 
-    <script src="/static/js/dark-mode.js"></script>
-    <script src="/static/js/loading-animations.js"></script>
+   <script src="/static/js/dark-mode.js"></script>
+<script src="/static/js/loading-animation.js"></script>
+
+<!-- Hollow Purple Animation Auto-Triggers -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        // Show animation on page load for dashboard
+        {% if 'dashboard' in request.path %}
+            showLoading('Loading Dashboard');
+            setTimeout(() => hideLoading(), 1500);
+        {% endif %}
+        
+        // Show on form submissions
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const btnText = submitBtn ? submitBtn.textContent : 'Processing';
+                showLoading(btnText.trim());
+            });
+        });
+        
+        // Show on logout
+        document.querySelectorAll('a[href*="logout"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                showLoading('Logging Out');
+            });
+        });
+        
+        // Show on dashboard navigation
+        document.querySelectorAll('a[href*="dashboard"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                showLoading('Loading Dashboard');
+            });
+        });
+        
+        // Show on lecturer rating
+        document.querySelectorAll('a[href*="rate_lecturer"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                showLoading('Loading Lecturer Profile');
+            });
+        });
+        
+        // Show on AI suggestion generation
+        document.querySelectorAll('a[href*="generate_suggestions"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                showLoading('Generating AI Suggestions');
+            });
+        });
+        
+        // Show on PDF export
+        document.querySelectorAll('a[href*="export_feedback_pdf"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                showLoading('Generating PDF Report');
+            });
+        });
+        
+        // Auto logout timer with animation
+        let warningTime = 8 * 60 * 1000;
+        let logoutTime = 10 * 60 * 1000;
+        let warningTimeout, logoutTimeout;
+
+        function resetTimers() {
+            clearTimeout(warningTimeout);
+            clearTimeout(logoutTimeout);
+            warningTimeout = setTimeout(showWarning, warningTime);
+            logoutTimeout = setTimeout(autoLogout, logoutTime);
+        }
+
+        function showWarning() {
+            toast.warning("You will be logged out soon due to inactivity.");
+        }
+
+        function autoLogout() {
+            showLoading('Session Expired - Logging Out');
+            setTimeout(() => {
+                window.location.href = "{% url 'logout' %}";
+            }, 1500);
+        }
+
+        resetTimers();
+        document.addEventListener('mousemove', resetTimers);
+        document.addEventListener('keypress', resetTimers);
+        
+        // Convert Django messages to toasts
+        {% if messages %}
+            {% for message in messages %}
+                toast.{{ message.tags }}('{{ message|escapejs }}');
+            {% endfor %}
+        {% endif %}
+    });
+</script>
 </body>
 </html>

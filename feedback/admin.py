@@ -8,7 +8,6 @@ from django.shortcuts import redirect
 from django.contrib import messages
 
 
-
 class CustomAdminSite(admin.AdminSite):
     site_header = "Rate.me Control Panel"
     site_title = "Rate.me Admin Portal"
@@ -23,9 +22,11 @@ class CustomAdminSite(admin.AdminSite):
         request.session.set_expiry(600)
         return super().each_context(request)
 
+
 # Create custom admin sites
 admin_site = CustomAdminSite(name='admin')
 custom_admin_site = CustomAdminSite(name='custom_admin')
+
 
 @admin.register(User)
 class CustomUserAdmin(BaseUserAdmin):
@@ -41,6 +42,41 @@ class CustomUserAdmin(BaseUserAdmin):
     search_fields = ['username', 'email', 'first_name', 'last_name']
     ordering = ['-date_joined']
     readonly_fields = ['profile_preview']
+    
+    def has_change_permission(self, request, obj=None):
+        """
+        Superusers can edit anyone.
+        Lecturers can only view/edit their own profile.
+        """
+        if request.user.is_superuser:
+            return True
+        
+        # Lecturers can only edit themselves
+        if request.user.is_staff and request.user.role == 'lecturer':
+            if obj is None:  # List view
+                return True
+            return obj == request.user  # Can only edit own profile
+        
+        return False
+    
+    def has_delete_permission(self, request, obj=None):
+        """Only superusers can delete users"""
+        return request.user.is_superuser
+    
+    def has_add_permission(self, request):
+        """Only superusers can add users via admin"""
+        return request.user.is_superuser
+    
+    def get_queryset(self, request):
+        """
+        Superusers see all users.
+        Lecturers only see themselves.
+        """
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        # Lecturers only see their own account
+        return qs.filter(id=request.user.id)
     
     def profile_image_tag(self, obj):
         """Display small profile picture in list view"""
@@ -74,7 +110,26 @@ class CourseAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        return qs.select_related('lecturer')
+        if request.user.is_superuser:
+            return qs
+        # Lecturers only see their own courses
+        return qs.filter(lecturer=request.user)
+    
+    def has_change_permission(self, request, obj=None):
+        """Lecturers can only edit their own courses"""
+        if request.user.is_superuser:
+            return True
+        if obj is None:
+            return True
+        return obj.lecturer == request.user
+    
+    def has_delete_permission(self, request, obj=None):
+        """Lecturers can delete their own courses"""
+        if request.user.is_superuser:
+            return True
+        if obj is None:
+            return True
+        return obj.lecturer == request.user
 
 
 @admin.register(Feedback, site=custom_admin_site)
@@ -131,7 +186,22 @@ class FeedbackAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        return qs.select_related('student', 'lecturer', 'course')
+        if request.user.is_superuser:
+            return qs
+        # Lecturers only see feedback for themselves
+        return qs.filter(lecturer=request.user)
+    
+    def has_add_permission(self, request):
+        """Students add feedback via the site, not admin"""
+        return request.user.is_superuser
+    
+    def has_change_permission(self, request, obj=None):
+        """Only superusers can edit feedback"""
+        return request.user.is_superuser
+    
+    def has_delete_permission(self, request, obj=None):
+        """Only superusers can delete feedback"""
+        return request.user.is_superuser
 
 
 @admin.register(Suggestion, site=custom_admin_site)
@@ -173,4 +243,21 @@ class SuggestionAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        return qs.select_related('lecturer')
+        if request.user.is_superuser:
+            return qs
+        # Lecturers only see their own suggestions
+        return qs.filter(lecturer=request.user)
+    
+    def has_change_permission(self, request, obj=None):
+        """Lecturers can view but not edit suggestions"""
+        if request.user.is_superuser:
+            return True
+        return False
+    
+    def has_delete_permission(self, request, obj=None):
+        """Only superusers can delete suggestions"""
+        return request.user.is_superuser
+    
+    def has_add_permission(self, request):
+        """Suggestions are generated automatically, not added manually"""
+        return False

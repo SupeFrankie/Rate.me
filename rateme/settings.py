@@ -239,6 +239,7 @@ MESSAGE_TAGS = {
 SESSION_COOKIE_AGE = 420
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_SAVE_EVERY_REQUEST = True
+SESSION_COOKIE_SECURE = False
 
 #Email Config
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -248,3 +249,15 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv('francismartine787@gmail.com')
 EMAIL_HOST_PASSWORD = os.getenv('eluw qqfl nohn lohq ')
 DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USER')
+
+# CSRF Settings
+CSRF_COOKIE_SECURE = False  # Set to True in production with HTTPS
+CSRF_COOKIE_HTTPONLY = False
+CSRF_USE_SESSIONS = False
+CSRF_COOKIE_SAMESITE = 'Lax'
+
+# For development, trusted origins
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]
